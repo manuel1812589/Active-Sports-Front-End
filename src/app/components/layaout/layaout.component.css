@@ -1,0 +1,13 @@
+.nav-link {
+    transition: background-color 0.3s ease;
+  }
+  
+  .nav-link:hover {
+    background-color: #495057; /* Color de fondo más oscuro en hover */
+    cursor: pointer;
+  }
+  
+  .active-link {
+    background-color: #6c757d; /* Color de fondo para el enlace activo */
+  }
+  

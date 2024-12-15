@@ -1,0 +1,101 @@
+<body>
+    <app-layaout></app-layaout>
+    <div class="container">
+        <div class="row">
+            <div class="col mt-4 d-flex justify-content-between">
+              <h2 class="fw-bold" style="color: honeydew;">Venta</h2>
+              <ol class="breadcrumb align-self-end bg-transparent m-0">
+                <li class="breadcrumb-item" aria-current="page">
+                  <a class="fw-bold active text-success" routerLink="/venta" style="text-decoration: none;">venta</a>
+                </li>
+              </ol>
+            </div>
+        </div>
+        <div class="row justify-content-center mb-3">
+          <div class="col-auto">
+            <form (ngSubmit)="enviarDatos()" class="d-flex align-items-center flex-wrap">
+              <div class="form-group me-2">
+                <label for="startDate" style="color:rgb(190, 190, 190);">Fecha de Inicio</label>
+                <input type="date" class="form-control" id="startDate" [(ngModel)]="startDate" name="startDate" data-bs-theme="dark">
+              </div>
+              <div class="form-group me-2">
+                <label for="endDate" style="color:rgb(190, 190, 190);">Fecha de Fin</label>
+                <input type="date" class="form-control" id="endDate" [(ngModel)]="endDate" name="endDate" data-bs-theme="dark">
+              </div>
+              <div class="form-group me-2">
+                <label for="nombreProducto" style="color:rgb(190, 190, 190);">Nombre del Calzado</label>
+                <input type="text" class="form-control" id="nombreCalzado" [(ngModel)]="nombreCalzado" name="nombreCalzado" data-bs-theme="dark">
+              </div>
+              <div class="form-group me-2">
+                <label for="nombreProducto" style="color:rgb(190, 190, 190);">Número del Pedido</label>
+                <input type="text" class="form-control" id="numPedido" [(ngModel)]="numPedido" name="numPedido" data-bs-theme="dark">
+              </div>
+              <button type="submit" class="btn btn-primary me-2 mt-4">Filtrar</button>
+              <button *ngIf="!pedidosFiltradosVacio" (click)="exportToExcel()" class="btn btn-success me-2 mt-4">Exportar a Excel</button>
+              <button type="button" class="btn btn-danger mt-4" (click)="resetFilters()">Reiniciar Filtros</button>
+            </form>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <div class="table-responsive">
+                <table *ngIf="pedidosFiltradosVacio" class="custom-table table table-dark table-hover">
+                    <thead>
+                        <tr class="text-success">
+                            <th scope="col">Item</th>
+                            <th scope="col">Fecha</th>
+                            <th scope="col">Total</th>
+                            <th scope="col">Numero de Pedido</th>
+                            <th scope="col">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let ven of ventas.lista; let i = index">
+                            <th scope="row">{{i+1}}</th>
+                            <td>{{ven.fecha}}</td>
+                            <td>S/.{{ven.total}}</td>
+                            <td>{{ven.numPedido}}</td>
+                            <td>                         
+                              <a routerLink="/detalle-venta/{{ven.id}}" class="btn btn-warning me-2">Detalles</a>                         
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <table *ngIf="!pedidosFiltradosVacio" class="custom-table table table-dark table-hover">
+                  <thead>
+                      <tr class="text-success">
+                          <th scope="col">Item</th>
+                          <th scope="col">Fecha</th>
+                          <th scope="col">Total</th>
+                          <th scope="col">Numero de Pedido</th>
+                          <th scope="col">Acciones</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      <tr *ngFor="let ven of pedidosFiltrados.lista; let i = index">
+                          <th scope="row">{{i+1}}</th>
+                          <td>{{ven.fecha}}</td>
+                          <td>S/.{{ven.total}}</td>
+                          <td>{{ven.numPedido}}</td>
+                          <td>                         
+                            <a routerLink="/detalle-venta/{{ven.id}}" class="btn btn-warning me-2">Detalles</a>                         
+                          </td>
+                      </tr>
+                  </tbody>
+              </table>
+            </div>
+            <nav *ngIf="pedidosFiltradosVacio" aria-label="Page navigation example" class="mt-3 pages" data-bs-theme="dark">
+                <ul class="pagination justify-content-center">
+                    <li class="page-item">
+                        <a class="page-link" routerLink="/calzado/{{pagePrev}}">Previous</a>
+                    </li>
+                    <li *ngFor="let page of pages" class="page-item"><a class="page-link" routerLink="/calzado/{{page}}">{{page + 1}}</a></li>
+                    <li class="page-item">
+                        <a class="page-link" routerLink="/calzado/{{pageNext}}">Next</a>
+                    </li>
+                </ul>
+            </nav>
+          </div>
+        </div>
+    </div>
+  </body>

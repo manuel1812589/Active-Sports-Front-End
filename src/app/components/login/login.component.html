@@ -1,0 +1,39 @@
+<body>
+
+  <main class="gradient-custom">
+    <div class="container">
+      <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+          <div class="card bg-dark text-white" style="border-radius: 1rem;">
+            <div class="card-body p-5 text-center">
+              <img src="../../../assets/img/pamela-logo.png" alt="Zapateria" style="width: 150px; height: auto; margin-bottom: 20px;">
+              <form #f1="ngForm" novalidate (ngSubmit)="iniciarSesion(f1.value, f1.valid)">
+                <div data-mdb-input-init class="form-outline form-white mb-4">
+                  <label class="form-label" for="typeEmailX">Email</label>
+                  <input type="email" id="typeEmailX" class="form-control form-control-lg" name="correo" [ngModel]="login.correo"
+                    required pattern="^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$">
+                  <small class="text-danger" *ngIf="f1.submitted && !f1.controls['correo'].valid">Ingresar Email: admin"&#64;"ejemplo.com </small>
+                </div>
+                <div data-mdb-input-init class="form-outline form-white mb-4">
+                  <label class="form-label" for="typePasswordX">Contraseña</label>
+                  <input type="password" id="typePasswordX" class="form-control form-control-lg" name="password" [ngModel]="login['password']"
+                    required validateEqual="confirmPassword" reverse="true">
+                  <small class="text-danger" *ngIf="f1.submitted && !f1.controls['password'].valid">Ingresar Contraseña</small>
+                </div>
+
+                <div  *ngIf="alerta==true" class="alert alert-danger alert-dismissible fade show " role="alert">
+                  Credenciales incorrectas
+                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                
+                <button data-mdb-button-init data-mdb-ripple-init class="btn btn-outline-light btn-lg px-5" type="submit">Iniciar Sesión</button>
+                <p class="mt-4 mb-0 text-body-primary">&copy; 2017–2024</p>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+</body>

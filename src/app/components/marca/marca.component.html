@@ -1,0 +1,184 @@
+<body>
+    <app-layaout>
+        <div class="container">
+            <div class="row">
+            <div class="col d-flex justify-content-between">
+                <h2 class="fw-bold" style="color: honeydew;">Marcas</h2>
+                <ol class="breadcrumb align-self-end bg-transparent m-0">
+                <li class="breadcrumb-item" aria-current="page">
+                    <a class="fw-bold active text-success" routerLink="/usuario" style="text-decoration: none;">marcas</a>
+                </li>
+                </ol>
+            </div>
+            <div class="row mt-2">
+                <div class="col-12">
+                <button type="button" class="btn btn-success btn-sm float-start mb-3" data-bs-toggle="modal" data-bs-target="#userModal">Agregar Marca</button>
+                </div>
+            </div>
+            </div>
+            <div class="row">
+            <div class="col-12">
+                <div class="table-responsive">
+                <table class="custom-table table table-dark table-hover">
+                    <thead>
+                    <tr class="text-success">
+                        <th scope="col">Item</th>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Estado</th>
+                        <th scope="col">Acciones</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor="let usu of marcas.lista?.content; let i = index">
+                        <th scope="row">{{ calculateItemNumber(i) }}</th>
+                        <td>{{usu.nombre}}</td>
+                        <td>{{usu.estado.nombre}}</td>
+                        <td>
+                        <button type="button" class="btn btn-success me-2" (click)="verMarca(usu)">Editar</button>
+                        <button type="button" class="btn btn-danger" (click)="verMarcaArchivar(usu)">Archivar</button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                </div>
+                <nav aria-label="Page navigation example" class="mt-3 pages" data-bs-theme="dark">
+                <ul class="pagination justify-content-center">
+                    <li class="page-item">
+                    <a class="page-link" routerLink="/marca/{{pagePrev}}">Previous</a>
+                    </li>
+                    <li *ngFor="let page of pages" class="page-item">
+                    <a class="page-link" routerLink="/marca/{{page}}">{{page + 1}}</a>
+                    </li>
+                    <li class="page-item">
+                    <a class="page-link" routerLink="/marca/{{pageNext}}">Next</a>
+                    </li>
+                </ul>
+                </nav>
+            </div>
+            </div>
+        </div>
+    </app-layaout>
+</body>
+    <!-- Modal para editar -->
+    <div class="modal fade" id="actualizar" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true" data-bs-theme="dark" style="color:white">
+        <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h1 class="modal-title fs-5 text-center" id="exampleModalLabel">Actualizar Marca</h1>
+            <button type="button" class="btn-close" (click)="resetFormulario()" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+            <form [formGroup]="marcaForm" class="row g-3" (ngSubmit)="actualizarMarca()">
+                <!-- Nombre -->
+                <div class="col-12">
+                <label for="inputNombre" class="form-label">Nombre de la Marca</label>
+                <input
+                    type="text"
+                    class="form-control"
+                    formControlName="nombre"
+                    [ngClass]="{
+                    'is-valid': marcaForm.get('nombre')?.valid && marcaForm.get('nombre')?.touched,
+                    'is-invalid': marcaForm.get('nombre')?.invalid && marcaForm.get('nombre')?.touched
+                    }"
+                />
+                <div *ngIf="marcaForm.get('nombre')?.invalid && marcaForm.get('nombre')?.touched" class="invalid-feedback">
+                    <small *ngIf="marcaForm.get('nombre')?.hasError('required')">Ingrese un nombre válido.</small>
+                    <small *ngIf="marcaForm.get('nombre')?.hasError('pattern')">El nombre solo puede contener letras y espacios.</small>
+                </div>
+                </div>
+            
+            <!-- Roles -->
+            <div class="col-12">
+                <label for="estadoEdit" class="form-label">Estado</label>
+                <select
+                    class="form-control"
+                    formControlName="estado"
+                    [ngClass]="{
+                    'is-valid': marcaForm.get('estado')?.valid && marcaForm.get('estado')?.touched,
+                    'is-invalid': marcaForm.get('estado')?.invalid && marcaForm.get('estado')?.touched
+                    }"
+                >
+                    <option value="" disabled>Seleccione un Estado</option>
+                  <option *ngFor="let es of estadosList" [value]="es.id">{{ es.nombre }}</option>
+                </select>
+                <div *ngIf="marcaForm.get('estado')?.invalid && marcaForm.get('estado')?.touched" class="invalid-feedback">
+                    <small>El Estado es requerido.</small>
+                </div>
+            </div>
+            
+                <!-- Botones -->
+                <div class="col-6">
+                <button type="submit" class="btn btn-success float-end" [disabled]="marcaForm.invalid">Guardar</button>
+                </div>
+                <div class="col-6">
+                <button type="button" id="cerrarModalAc" class="btn btn-danger" (click)="resetFormulario()" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+            </form>                   
+            </div>
+        </div>
+        </div>
+</div>
+
+    
+    
+    <!-- Modal para agregar Usuario -->
+    <div class="modal fade" id="userModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true" data-bs-theme="dark" style="color:white">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="userModalLabel">Agregar</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form [formGroup]="marcaForm" class="row g-3" (ngSubmit)="registrarMarca()">
+                    <!-- Nombre -->
+                    <div class="col-12">
+                        <label for="inputNombre" class="form-label">Nombre de la Marca</label>
+                        <input
+                            type="text"
+                            class="form-control"
+                            formControlName="nombre"
+                            [ngClass]="{
+                            'is-valid': marcaForm.get('nombre')?.valid && marcaForm.get('nombre')?.touched,
+                            'is-invalid': marcaForm.get('nombre')?.invalid && marcaForm.get('nombre')?.touched
+                            }"
+                        />
+                        <div *ngIf="marcaForm.get('nombre')?.invalid && marcaForm.get('nombre')?.touched" class="invalid-feedback">
+                            <small *ngIf="marcaForm.get('nombre')?.hasError('required')">Ingrese un nombre válido.</small>
+                            <small *ngIf="marcaForm.get('nombre')?.hasError('pattern')">El nombre solo puede contener letras y espacios.</small>
+                        </div>
+                        </div>
+                    
+                    <!-- Roles -->
+                    <div class="col-12">
+                        <label for="estadoEdit" class="form-label">Estado</label>
+                        <select
+                            class="form-control"
+                            formControlName="estado"
+                            [ngClass]="{
+                            'is-valid': marcaForm.get('estado')?.valid && marcaForm.get('estado')?.touched,
+                            'is-invalid': marcaForm.get('estado')?.invalid && marcaForm.get('estado')?.touched
+                            }"
+                        >
+                            <option value="null" disabled>Seleccione un Estado</option>
+                            <option *ngFor="let es of estadosList" [value]="es.id">{{ es.nombre }}</option>
+                        </select>
+                        <div *ngIf="marcaForm.get('estado')?.invalid && marcaForm.get('estado')?.touched" class="invalid-feedback">
+                            <small>El Estado es requerido.</small>
+                        </div>
+                    </div>
+
+                    <!-- Botones -->
+                    <div class="col-6">
+                        <button type="submit" class="btn btn-success float-end" [disabled]="marcaForm.invalid">Guardar</button>
+                    </div>
+                    <div class="col-6">
+                        <button type="button" id="cerrarModal" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    </div>
+                </form>                                                             
+            </div>
+        </div>
+    </div>
+    </div>

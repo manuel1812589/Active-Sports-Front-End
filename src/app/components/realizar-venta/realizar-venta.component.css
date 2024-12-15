@@ -1,0 +1,62 @@
+body {
+    background-color: #2f353b;
+    color: whitesmoke;
+  }
+  
+  .breadcrumb-item+.breadcrumb-item::before {
+    content: "\232A";
+    color: rgb(149, 149, 149);
+    padding-right: 0.5rem;
+  }
+  
+  table{
+      border-radius: 10px !important;
+      box-shadow: 0 1rem 1.5rem rgba(0, 0, 0, 0.15) !important;
+    }
+    
+    .table thead th {
+      background-color: rgb(43 48 53); /* Color de fondo del encabezado */
+      color: rgb(255, 255, 255);
+    }
+    
+    .table tbody th,
+    .table tbody td {
+      color: rgba(255, 255, 255, 0.65); /* Color de texto del cuerpo de la tabla */
+    }
+    
+    .table tbody tr:nth-child(odd) {
+      background-color: rgba(255, 255, 255, 0.05); /* Color de fondo de filas impares */
+    }
+  
+    .custom-table {
+      border-radius: 10px !important;
+      box-shadow: 0 1.5rem 2rem rgba(0, 0, 0, 0.15);
+      background-color: rgba(0, 0, 0, 0.75); /* Color de fondo de la tabla */
+      overflow: hidden; /* Evitar que los bordes redondeados sean cortados */
+    }
+    
+    .custom-table thead th {
+      background-color: rgb(43 48 53); /* Color de fondo del encabezado */
+      color: rgb(255, 255, 255);
+    }
+    
+    .custom-table tbody th,
+    .custom-table tbody td {
+      color: rgba(255, 255, 255, 0.9); /* Color de texto del cuerpo de la tabla */
+    }
+    
+    .custom-table tbody tr:nth-child(odd) {
+      background-color: rgba(255, 255, 255, 0.05); /* Color de fondo de filas impares */
+    }
+  
+  .pages ul li a{
+      color: rgb(226, 212, 212);
+  }
+  
+  .tox-statusbar__branding {
+    display: none;
+  }
+
+h2{
+  color: honeydew;
+}

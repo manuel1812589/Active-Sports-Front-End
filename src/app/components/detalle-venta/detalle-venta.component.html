@@ -1,0 +1,59 @@
+<body>
+    <app-layaout></app-layaout>
+    <div class="container text-center">
+        <div class="row">
+            <div class="col mt-4 d-flex justify-content-between">
+              <div class="d-flex flex-column justify-content-start text-start">
+                <h2 class="fw-bold text-success">
+                  Detalles de la Venta {{ventas?.venta?.numPedido}}
+                </h2>
+                <p class="fw-bold text-secondary">
+                  Fecha de la Venta: {{ ventas?.venta?.fecha}}
+                </p>
+                <p class="fw-bold text-secondary">
+                    Total de la Venta: S/.{{ ventas?.venta?.total}}
+                  </p>           
+              </div>            
+              <ol class="breadcrumb align-self-end bg-transparent m-0">
+                  <li class="breadcrumb-item" style="color:rgb(149, 149, 149);">Venta</li>
+                  <li class="breadcrumb-item" aria-current="page">
+                      <a class="fw-bold active text-success" routerLink="/venta" style="text-decoration: none;">ventas</a>
+                  </li>
+                  <li class="breadcrumb-item" style="color:rgb(149, 149, 149);">detalles</li>
+              </ol>
+            </div>
+            <div class="row">
+              <div class="col-12">
+                  <button type="button" class="btn btn-primary btn-sm float-end" routerLink="/venta">Volver</button>
+              </div>
+            </div>
+        <table class="table table-hover custom-table table-dark">
+            <thead>
+              <tr>
+                <th scope="col">Item</th>
+                <th scope="col">Calzado</th>
+                <th scope="col">Proveedor</th>
+                <th scope="col">Presentacion</th>
+                <th scope="col">Cantidad</th>
+                <th scope="col">Sub total</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let pepro of ventas.lista; let i = index">
+                <th scope="row">{{i+1}}</th>
+                <td>{{ pepro.presentacion.calzado.nombre }}</td>
+                <td>{{ pepro.presentacion.calzado.proveedor.nombre }}</td>
+                <td>{{ pepro.presentacion.color }}</td>
+                <td>{{ pepro.cantidad}}</td>
+                <td>S/.{{ pepro.sub_total}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+    </div>
+  </body>
+  
+  
+  
+  
+  

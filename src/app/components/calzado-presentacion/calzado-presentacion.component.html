@@ -1,0 +1,186 @@
+<body>
+    <app-layaout></app-layaout>
+    <div class="container">
+        <div class="row">
+            <div class="col mt-4 d-flex justify-content-between">
+              <h2 class="fw-bold" style="color: honeydew;">Presentaciones</h2>
+              <ol class="breadcrumb align-self-end bg-transparent m-0">
+                <li class="breadcrumb-item" aria-current="page">
+                  <a class="fw-bold active text-success" routerLink="/calzado" style="text-decoration: none;">calzado</a>
+                </li>
+              </ol>
+            </div>
+            <div class="row mt-2">
+              <div class="col-12">
+                <button type="button" class="btn btn-success btn-sm float-start mb-3" data-bs-toggle="modal" data-bs-target="#userModal">Agregar Presentacion</button>
+              </div>
+            </div>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <div class="table-responsive">
+                <table class="custom-table table table-dark table-hover">
+                    <thead>
+                        <tr class="text-success">
+                            <th scope="col">Item</th>
+                            <th scope="col">Color</th>
+                            <th scope="col">Talla</th>
+                            <th scope="col">Precio Venta</th>
+                            <th scope="col">Precio Compra</th>
+                            <th scope="col">Stock</th>
+                            <th scope="col">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let cal of propiedadesDetalles.lista; let i = index">
+                            <th scope="row">{{ calculateItemNumber(i) }}</th>
+                            <td>{{cal.color}}</td>
+                            <td>{{cal.talla}}</td>
+                            <td>{{cal.precioVenta}}</td>
+                            <td>{{cal.precioCompra}}</td>
+                            <td>{{cal.stock}}</td>
+                            <td>
+                              <button type="button" class="btn btn-success me-2" (click)="verPresentacion(cal)">Editar</button>                                                   
+                              <button type="button" class="btn btn-danger" (click)="eliminarPresentacion(cal)">Eliminar</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+          </div>
+        </div>
+    </div>
+  
+  
+  </body>
+  
+  
+    <!-- Modal para editar -->
+    <div class="modal fade" id="actualizar" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true" data-bs-theme="dark" style="color:white">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5 text-center" id="exampleModalLabel">Actualizar Presentación</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form class="row g-3" #f2="ngForm" novalidate (ngSubmit)="actualizarPresentacion(f2.value, f2.valid, propiedadEditar.id)">
+            <div class="col-12">
+              <label for="colorInput" class="form-label">Color</label>
+              <input type="hidden" name="id" [ngModel]="propiedadEditar.id" required #id="ngModel">
+              <input type="text" class="form-control" id="colorInput" name="color"
+                     [ngModel]="propiedadEditar.color" required #color="ngModel" autocomplete="off">
+              <small [hidden]="color.valid || (color.pristine && !f2.submitted)" class="text-danger">
+                El color es requerido.
+              </small>
+            </div>
+            <div class="col-12">
+              <label for="tallaInput" class="form-label">Talla</label>
+              <input type="number" class="form-control" id="tallaInput" name="talla"
+                     [ngModel]="propiedadEditar.talla" required #talla="ngModel" autocomplete="off">
+              <small [hidden]="talla.valid || (talla.pristine && !f2.submitted)" class="text-danger">
+                La talla es requerida.
+              </small>
+            </div>
+            <div class="col-12">
+              <label for="precioVentaInput" class="form-label">Precio de Venta</label>
+              <input type="number" class="form-control" id="precioVentaInput" name="precioVenta"
+                     [ngModel]="propiedadEditar.precioVenta" required #precioVenta="ngModel" autocomplete="off">
+              <small [hidden]="precioVenta.valid || (precioVenta.pristine && !f2.submitted)" class="text-danger">
+                El precio de venta es requerido.
+              </small>
+            </div>
+            <div class="col-12">
+              <label for="precioCompraInput" class="form-label">Precio de Compra</label>
+              <input type="number" class="form-control" id="precioCompraInput" name="precioCompra"
+                     [ngModel]="propiedadEditar.precioCompra" required #precioCompra="ngModel" autocomplete="off">
+              <small [hidden]="precioCompra.valid || (precioCompra.pristine && !f2.submitted)" class="text-danger">
+                El precio de compra es requerido.
+              </small>
+            </div>
+            <div class="col-12">
+              <label for="stockInput" class="form-label">Stock</label>
+              <input type="number" class="form-control" id="stockInput" name="stock"
+                     [ngModel]="propiedadEditar.stock" required #stock="ngModel" autocomplete="off">
+              <small [hidden]="stock.valid || (stock.pristine && !f2.submitted)" class="text-danger">
+                El stock es requerido.
+              </small>
+            </div>
+            <div class="col-6">
+              <button type="submit" class="btn btn-success float-end" [disabled]="f2.invalid">Guardar</button>
+            </div>
+            <div class="col-6">
+              <button type="button" id="cerrarModalAc" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+    
+    
+    <!-- Modal para agregar -->
+    <div class="modal fade" id="userModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true" data-bs-theme="dark" style="color:white">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="userModalLabel">Agregar Presentación de Calzado</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form class="row g-3" #f1="ngForm" novalidate (ngSubmit)="registrarPresentacion(f1.value, f1.valid, propiedad.id)">
+            <div class="col-12">
+              <label for="colorInput" class="form-label">Color</label>
+              <input type="text" class="form-control" id="colorInput" name="color"
+                     [ngModel]="propiedad.color" required #color="ngModel" autocomplete="off">
+              <small [hidden]="color.valid || (color.pristine && !f1.submitted)" class="text-danger">
+                El color es requerido.
+              </small>
+            </div>
+            <div class="col-12">
+              <label for="tallaInput" class="form-label">Talla</label>
+              <input type="number" class="form-control" id="tallaInput" name="talla"
+                     [ngModel]="propiedad.talla" required min="1" #talla="ngModel" autocomplete="off">
+              <small [hidden]="talla.valid || (talla.pristine && !f1.submitted)" class="text-danger">
+                La talla es requerida y debe ser mayor que 0.
+              </small>
+            </div>
+            <div class="col-12">
+              <label for="precioVentaInput" class="form-label">Precio de Venta</label>
+              <input type="number" class="form-control" id="precioVentaInput" name="precioVenta"
+                     [ngModel]="propiedad.precioVenta" required min="0.01" step="0.01" #precioVenta="ngModel" autocomplete="off">
+              <small [hidden]="precioVenta.valid || (precioVenta.pristine && !f1.submitted)" class="text-danger">
+                El precio de venta es requerido y debe ser mayor que 0.
+              </small>
+            </div>
+            <div class="col-12">
+              <label for="precioCompraInput" class="form-label">Precio de Compra</label>
+              <input type="number" class="form-control" id="precioCompraInput" name="precioCompra"
+                     [ngModel]="propiedad.precioCompra" required min="0.01" step="0.01" #precioCompra="ngModel" autocomplete="off">
+              <small [hidden]="precioCompra.valid || (precioCompra.pristine && !f1.submitted)" class="text-danger">
+                El precio de compra es requerido y debe ser mayor que 0.
+              </small>
+            </div>
+            <div class="col-12">
+              <label for="stockInput" class="form-label">Stock</label>
+              <input type="number" class="form-control" id="stockInput" name="stock"
+                     [ngModel]="propiedad.stock" required min="1" #stock="ngModel" autocomplete="off">
+              <small [hidden]="stock.valid || (stock.pristine && !f1.submitted)" class="text-danger">
+                El stock es requerido y debe ser mayor que 0.
+              </small>
+            </div>
+            <div class="col-6">
+              <button type="submit" class="btn btn-success float-end" [disabled]="f1.invalid">Guardar</button>
+            </div>
+            <div class="col-6">
+              <button type="button" id="cerrarModal" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  
