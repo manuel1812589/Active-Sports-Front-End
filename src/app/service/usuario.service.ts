@@ -13,6 +13,8 @@ export class UsuariosService {
 
   public url: string;
   public token: any;
+  private apiUrl = 'https://apiperu.dev/api/dni';
+  private tokenDni = 'Bearer f30ba10efc5d4560ea70f594cfadd4950722c09b5a6f690cb23e67732042e3c4';
   constructor(private http: HttpClient, private loginService:LoginService) {
     this.url = GLOBAL.url;
   }
@@ -81,4 +83,19 @@ export class UsuariosService {
     return this.http.post(this.url + 'api/usuarios/eliminar', usuario ,{headers});
   }
 
+  buscarDni(dni: string): Observable<any> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+      Authorization: this.tokenDni,
+    });
+
+    const dniString = dni.toString()
+
+    const body = { dni: dniString };
+
+    console.log(body, headers)
+
+    return this.http.post(this.apiUrl, body, { headers });
+  }
 }

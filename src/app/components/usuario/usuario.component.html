@@ -177,8 +177,10 @@
               <div *ngIf="usuarioForm.get('dni')?.invalid && usuarioForm.get('dni')?.touched" class="invalid-feedback">
                 <small *ngIf="usuarioForm.get('dni')?.hasError('required')">Ingrese un DNI válido.</small>
                 <small *ngIf="usuarioForm.get('dni')?.hasError('min')">El DNI debe ser mayor a 0.</small>
+                <small *ngIf="usuarioForm.get('dni')?.hasError('maxlength')">El DNI no debe tener más de 8 dígitos.</small>
+                <small *ngIf="usuarioForm.get('dni')?.hasError('pattern')">El DNI debe contener solo números válidos.</small>
               </div>
-            </div>
+            </div>            
           
             <!-- Botones -->
             <div class="col-6">
@@ -269,6 +271,30 @@
                   </div>
                 </div>
               
+                <!-- DNI -->
+                <div class="col-12">
+                  <label for="inputDni" class="form-label">DNI</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    formControlName="dni"
+                    [ngClass]="{
+                      'is-valid': usuarioForm.get('dni')?.valid && usuarioForm.get('dni')?.touched,
+                      'is-invalid': usuarioForm.get('dni')?.invalid && usuarioForm.get('dni')?.touched
+                    }"
+                  />
+                
+                  <div *ngIf="usuarioForm.get('dni')?.invalid && usuarioForm.get('dni')?.touched" class="invalid-feedback">
+                    <small *ngIf="usuarioForm.get('dni')?.hasError('required')">Ingrese un DNI válido.</small>
+                    <small *ngIf="usuarioForm.get('dni')?.hasError('min')">El DNI debe ser mayor a 0.</small>
+                    <small *ngIf="usuarioForm.get('dni')?.hasError('maxlength')">El DNI no debe tener más de 8 dígitos.</small>
+                    <small *ngIf="usuarioForm.get('dni')?.hasError('pattern')">El DNI debe contener solo números válidos.</small>
+                  </div>
+
+                  <button type="button" class="btn btn-primary mt-2" (click)="onBuscarDni()">Buscar DNI</button>
+
+                </div>
+
                 <!-- Nombre -->
                 <div class="col-12">
                   <label for="inputAddress" class="form-label">Nombre</label>
@@ -284,24 +310,6 @@
                   <div *ngIf="usuarioForm.get('nombre')?.invalid && usuarioForm.get('nombre')?.touched" class="invalid-feedback">
                     <small *ngIf="usuarioForm.get('nombre')?.hasError('required')">Ingrese un nombre válido.</small>
                     <small *ngIf="usuarioForm.get('nombre')?.hasError('pattern')">El nombre solo puede contener letras y espacios.</small>
-                  </div>
-                </div>
-              
-                <!-- DNI -->
-                <div class="col-12">
-                  <label for="inputPrecio" class="form-label">DNI</label>
-                  <input
-                    type="number"
-                    class="form-control"
-                    formControlName="dni"
-                    [ngClass]="{
-                      'is-valid': usuarioForm.get('dni')?.valid && usuarioForm.get('dni')?.touched,
-                      'is-invalid': usuarioForm.get('dni')?.invalid && usuarioForm.get('dni')?.touched
-                    }"
-                  />
-                  <div *ngIf="usuarioForm.get('dni')?.invalid && usuarioForm.get('dni')?.touched" class="invalid-feedback">
-                    <small *ngIf="usuarioForm.get('dni')?.hasError('required')">Ingrese un DNI válido.</small>
-                    <small *ngIf="usuarioForm.get('dni')?.hasError('min')">El DNI debe ser mayor a 0.</small>
                   </div>
                 </div>
               

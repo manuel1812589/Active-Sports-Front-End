@@ -11,7 +11,12 @@ export class AuthInterceptor implements HttpInterceptor {
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     const token = this.loginService.getToken();
-
+  
+    // Excluir solicitudes a la API de la Reniec
+    if (req.url.includes('https://apiperu.dev/api/dni')) {
+      return next.handle(req); // No modificar esta solicitud
+    }
+  
     let authReq = req;
     if (token) {
       authReq = req.clone({

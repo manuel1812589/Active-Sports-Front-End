@@ -33,6 +33,8 @@ export class UsuarioComponent implements OnInit{
   mostrarRoles: boolean = true;
   mostrarPassword: boolean = false;
   usuarioForm!: FormGroup; // Reactive form
+  dniInfo: any = null;
+
 
   cargando: boolean = false;
   mensaje: string;
@@ -56,7 +58,15 @@ export class UsuarioComponent implements OnInit{
     this.usuarioForm = this.fb.group({
         correo: ['', [Validators.required, Validators.email]],
         nombre: ['', [Validators.required, Validators.pattern('[a-zA-Z ]*')]],
-        dni: ['', [Validators.required, Validators.min(1)]],
+        dni: [
+          '',
+          [
+            Validators.required,
+            Validators.min(1), // Evita números negativos o cero
+            Validators.maxLength(8), // Máximo 8 dígitos
+            Validators.pattern(/^\d+$/), // Solo números
+          ],
+        ],
         roles: ['', Validators.required],
         password: ['', [Validators.required]]
     });
@@ -236,7 +246,15 @@ export class UsuarioComponent implements OnInit{
     this.usuarioForm = this.fb.group({
       correo: ['', [Validators.required, Validators.email]],
       nombre: ['', [Validators.required, Validators.pattern('[a-zA-Z ]*')]],
-      dni: ['', [Validators.required, Validators.min(1)]],
+      dni: [
+        '',
+        [
+          Validators.required,
+          Validators.min(1), // Evita números negativos o cero
+          Validators.maxLength(8), // Máximo 8 dígitos
+          Validators.pattern(/^\d+$/), // Solo números
+        ],
+      ],
       roles: ['', Validators.required],
       password: ['', [Validators.required]],
       id: ['', [Validators.required]]
@@ -279,12 +297,45 @@ export class UsuarioComponent implements OnInit{
     this.usuarioForm = this.fb.group({
       correo: ['', [Validators.required, Validators.email]],
       nombre: ['', [Validators.required, Validators.pattern('[a-zA-Z ]*')]],
-      dni: ['', [Validators.required, Validators.min(1)]],
+      dni: [
+        '',
+        [
+          Validators.required,
+          Validators.min(1), // Evita números negativos o cero
+          Validators.maxLength(8), // Máximo 8 dígitos
+          Validators.pattern(/^\d+$/), // Solo números
+        ],
+      ],
       roles: ['', Validators.required],
       password: ['', [Validators.required]]
   });
   console.log("Formulario Reseteado")
   }
+
+  onBuscarDni() {
+    const dni = this.usuarioForm.get('dni')?.value;
+    if (dni) {
+      this.usuarioService.buscarDni(dni).subscribe({
+        next: (response) => {
+          if (response.success) {
+            this.dniInfo = response.data;
+            let nombreCompleto = response.data.nombre_completo;
+            nombreCompleto = nombreCompleto.replace(',', '').trim();
+            this.usuarioForm.get('nombre')?.setValue(nombreCompleto);
+            this.toastr.success("DNI CORRECTO", 'Éxito');
+          } else {
+            this.dniInfo = null;
+            this.toastr.error("DNI INCORRECTO", 'ERROR');
+          }
+        },
+        error: (err) => {
+          console.error(err);
+          alert('Error al buscar el DNI');
+        },
+      });
+    }
+  }
+
 
   eliminarUsuario(usuario: Usuario) {
     if (confirm('¿Estás seguro de que quieres eliminar a este usuario?')) {

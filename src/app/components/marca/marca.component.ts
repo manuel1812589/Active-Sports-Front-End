@@ -266,7 +266,7 @@ export class MarcaComponent implements OnInit{
   }
 
   verMarcaArchivar(marca: any) {
-  if (confirm('¿Estás seguro de que quieres eliminar esta marca?')) {
+  if (confirm('¿Estás seguro de que quieres archivar esta marca?')) {
       this.marcaForm = this.fb.group({
         nombre: ['', [Validators.required, Validators.pattern('[a-zA-Z ]*')]],
         estado: ['', Validators.required],
