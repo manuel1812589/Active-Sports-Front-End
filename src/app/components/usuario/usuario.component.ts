@@ -314,6 +314,7 @@ export class UsuarioComponent implements OnInit{
 
   onBuscarDni() {
     const dni = this.usuarioForm.get('dni')?.value;
+    this.toastr.warning("BUSCANDO DNI", 'Espera');
     if (dni) {
       this.usuarioService.buscarDni(dni).subscribe({
         next: (response) => {
