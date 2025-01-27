@@ -4,16 +4,21 @@ import { Router } from '@angular/router';
 import { Usuario } from './../../model/usuarioEjm';
 import { throwError } from 'rxjs';
 import { retry, catchError } from 'rxjs/operators';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  styleUrls: ['./login.component.css'],
 })
 export class LoginComponent implements OnInit {
   public login: Usuario;
   public alerta: boolean;
-  constructor(private router: Router, private loginService: LoginService) {
+  constructor(
+    private router: Router,
+    private loginService: LoginService,
+    private toastr: ToastrService
+  ) {
     this.login = new Usuario('', '', '');
     this.alerta = false;
   }
@@ -23,26 +28,28 @@ export class LoginComponent implements OnInit {
     }
   }
 
-
   iniciarSesion(model: Usuario, isValid: any) {
     this.alerta = false;
     if (isValid === true) {
       try {
-        this.loginService.login(model).pipe(retry(1), catchError(this.handleError)).subscribe({
-          next: (data) => {
-            localStorage.setItem('token', data.accessToken);
-            console.log(data.accessToken);
-
-          },
-          error: () => {
-            console.log('ERROR DESDE SUBSCRIBE');
-            this.alerta = true;
-          },
-          complete: () => {
-            this.router.navigate(['/usuario']);
-            console.log('Completado');
-          }
-        });
+        this.loginService
+          .login(model)
+          .pipe(retry(1), catchError(this.handleError))
+          .subscribe({
+            next: (data) => {
+              localStorage.setItem('token', data.accessToken);
+              console.log(data.accessToken);
+              this.toastr.success('SESIÓN INICIADA', 'Éxito');
+            },
+            error: () => {
+              console.log('ERROR DESDE SUBSCRIBE');
+              this.alerta = true;
+            },
+            complete: () => {
+              this.router.navigate(['/usuario']);
+              console.log('Completado');
+            },
+          });
       } catch (err) {
         console.log('ERROR DESDE CATCH');
       }
@@ -50,8 +57,6 @@ export class LoginComponent implements OnInit {
       this.alerta = false;
     }
   }
-  
-  
 
   handleError(error: any) {
     let errorMessage = '';
@@ -60,7 +65,7 @@ export class LoginComponent implements OnInit {
     } else {
       errorMessage = `CODIGO DE ERROR: ${error.status}\nMENSAJE: ${error.message}`;
     }
-    console.log(errorMessage)
+    console.log(errorMessage);
     return throwError(() => {
       return errorMessage;
     });

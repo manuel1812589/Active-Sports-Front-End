@@ -91,7 +91,7 @@ export class UsuarioComponent implements OnInit{
             this.usuarios = data
             this.rolesList = this.usuarios.roles;
             this.usuario['roles'] = this.rolesList !== undefined ? this.rolesList[0].id : null;
-            console.log(this.usuarios.lista.content)
+            console.log(this.usuarios)
 
             this.pages = [];
             for (let i = 0; i < this.usuarios.lista.totalPages; i++) {

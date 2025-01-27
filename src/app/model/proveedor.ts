@@ -1,8 +1,8 @@
 export class Proveedor {
-    constructor(
-        public nombre: string,
-        public contacto: string,
-        public direccion: string,
-        public id?: number,
-    ) { }
+  constructor(
+    public nombre: string,
+    public telefono: string,
+    public correo: string,
+    public id?: number
+  ) {}
 }

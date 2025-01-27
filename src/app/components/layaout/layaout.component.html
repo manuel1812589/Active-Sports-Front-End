@@ -1,21 +1,52 @@
 <div class="d-flex">
   <!-- Sidebar -->
-  <div class="bg-dark text-white p-4" style="width: 250px; min-height: 100vh;">
+  <div class="bg-dark text-white p-4" style="width: 250px; min-height: 100vh">
     <div class="d-flex justify-content-center mb-4">
       <a class="navbar-brand" href="#">
-        <img src="../../../assets/img/pamela-logo.png" alt="imagen" width="150px" class="d-inline-block align-top">
+        <img
+          src="../../../assets/img/pamela-logo.png"
+          alt="imagen"
+          width="150px"
+          class="d-inline-block align-top"
+        />
       </a>
     </div>
-    <hr class="bg-secondary border-1 opacity-50 mb-4">
+    <hr class="bg-secondary border-1 opacity-50 mb-4" />
     <ul class="nav flex-column">
       <li class="nav-item mb-3" *ngIf="canViewSuperv()">
-        <a class="nav-link text-white p-3 rounded" routerLink="/usuario" [routerLinkActive]="['active-link']">
+        <a
+          class="nav-link text-white p-3 rounded"
+          routerLink="/usuario"
+          [routerLinkActive]="['active-link']"
+        >
           Usuarios
         </a>
       </li>
       <li class="nav-item mb-3" *ngIf="canViewSuperv()">
-        <a class="nav-link text-white p-3 rounded" routerLink="/marca" [routerLinkActive]="['active-link']">
+        <a
+          class="nav-link text-white p-3 rounded"
+          routerLink="/marca"
+          [routerLinkActive]="['active-link']"
+        >
           Marcas
+        </a>
+      </li>
+      <li class="nav-item mb-3" *ngIf="canViewSuperv()">
+        <a
+          class="nav-link text-white p-3 rounded"
+          routerLink="/categoria"
+          [routerLinkActive]="['active-link']"
+        >
+          Categorias
+        </a>
+      </li>
+      <li class="nav-item mb-3" *ngIf="canViewSuperv()">
+        <a
+          class="nav-link text-white p-3 rounded"
+          routerLink="/proveedor"
+          [routerLinkActive]="['active-link']"
+        >
+          Proveedor
         </a>
       </li>
       <li class="nav-item">
