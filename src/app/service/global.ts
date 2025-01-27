@@ -1,3 +1,3 @@
 export var GLOBAL = {
-	url: 'http://localhost:8080/'
-}
+  url: 'https://active-sports-back-end-production.up.railway.app/',
+};
