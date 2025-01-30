@@ -294,8 +294,6 @@ export class UsuarioComponent implements OnInit {
       usuario.id
     );
 
-    this.selectedRoles = usuario.roles.map((role: any) => ({ id: role.id }));
-
     this.usuarioForm.patchValue({
       correo: usuario.correo,
       nombre: usuario.nombre,
